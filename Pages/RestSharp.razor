@@ -1,5 +1,6 @@
 ﻿@page "/restsharp"
-@using global::RestSharp
+@using global::RestSharp 
+@inject RestClient _restClient
 
 <PageTitle>RestSharp</PageTitle>
 
@@ -13,14 +14,11 @@ Test RestSharp
     protected override async void OnInitialized()
     {
         try
-        {
-            var options = new RestClientOptions("https://apibihml.value4u.com.br");
-            var client = new RestClient(options);
-            var request = new RestRequest("https://apibihml.value4u.com.br/obter-acesso/", Method.Get);
-            // request.AddHeader("Host", "apibihml.value4u.com.br");
-            // request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            // request.AddHeader("AcceptCharset", "utf-8");
-            RestResponse response = await client.ExecuteAsync(request);
+        { 
+            var request = new RestRequest("https://apibihml.value4u.com.br/obter-acesso", Method.Get);
+            request.AddHeader("Host", "apibihml.value4u.com.br");
+            
+            RestResponse response = await _restClient.ExecuteAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
